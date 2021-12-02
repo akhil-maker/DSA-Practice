@@ -8,7 +8,7 @@ int subSum(int a[], int n, int k){
             start++;
         }
         if(sum==k){
-            cout<<start<<" "<<i<<endl;
+            cout<<start<<" "<<i-1<<endl;
             return 1;
         }
         if(i<n)
