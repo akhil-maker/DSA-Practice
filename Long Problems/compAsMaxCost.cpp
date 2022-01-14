@@ -8,7 +8,6 @@ struct Configuration{
 };
 Configuration m[9];
 void solve(int index, int counta, int D, int E, int F, int cost){
-    cout<<index<<" "<<counta<<" "<<D<<" "<<E<<" "<<F<<" "<<cost<<endl;
     if(index>=config || counta==3){
         cost += D*d + E*e;
         if(cost>ans)
@@ -16,7 +15,6 @@ void solve(int index, int counta, int D, int E, int F, int cost){
         return;
     }
     solve(index+1, counta, D, E, F, cost);
-    cout<<"Rep = "<<index<<" "<<counta<<" "<<D<<" "<<E<<" "<<F<<" "<<cost<<endl;
     int i = 1;
     while(true){
         if(D-m[index].D*i>=0 && E-m[index].E*i>=0 && F-m[index].F*i>=0){
