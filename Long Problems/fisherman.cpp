@@ -4,9 +4,6 @@ int gates[3], fisherman[3];
 int visited[20], n, ans = 99999999;
 void permut(int visited[], int l, int r){
     if(l==r){
-        for(int i=0; i<n; i++)
-            cout<<visited[i]<<" ";
-        cout<<endl;
         int i, j, k, dist = 0;
         for(i=0; i<fisherman[0]; i++)
             dist = dist + abs(visited[i]-gates[0]);
@@ -20,12 +17,10 @@ void permut(int visited[], int l, int r){
         }
         dist = dist + i;
         ans = min(ans, dist);
-        cout<<"dist="<<dist<<endl;
         return;
     }
     else{
         for(int i=l; i<=r; i++){
-            cout<<visited[i]<<" "<<visited[l]<<endl;
             swap(visited[i], visited[l]);
             permut(visited, l+1, r);
             swap(visited[i], visited[l]);
