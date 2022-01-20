@@ -1,22 +1,8 @@
 #include<iostream>
 using namespace std;
-int n, mat[100][100], visited[100][100], res[100][100], mxJewels = 0;
+int n, mat[100][100], visited[100][100], res[100][100], ans;
 int addx[] = {1, 0, -1, 0};
 int addy[] = {0, 1, 0, -1};
-struct queue{
-    int x, y;
-};
-queue q[100];
-int f = 0, r = 0;
-void push(queue x){
-    q[r++] = x;
-}
-queue pop(){
-    return q[f++];
-}
-bool empty(){
-    return f==r;
-}
 void init(){
     for(int i=0; i<n; i++)
         for(int j=0; j<n; j++)
@@ -25,56 +11,37 @@ void init(){
 bool valid(int x, int y){
     return (x>=0 && x<n && y>=0 && y<n);
 }
-int solve(int i, int j, int total){
-    int ret = 0;
-    res[i][j] = 3;
-    visited[i][j] = 1;
-    if(i==0 && j==0 && mat[i][j]==2)
-        total++;
-    if(i==n-1 && j==n-1){
-        if(total>mxJewels)
-            mxJewels = total;
-        visited[i][j] = 0;
-        return 1;
+void solve(int x, int y, int total){
+    if(x==n-1 && y==n-1){
+        if(total>=ans){
+            ans = total;
+            for(int i=0; i<n; i++){
+                for(int j=0; j<n; j++){
+                    if(visited[i][j])
+                        res[i][j] = 3;
+                    else
+                        res[i][j] = mat[i][j];
+                }
+            }
+        }
+        return;
     }
-    if((j+1)<=n-1){ //down
-        if(visited[i][j+1]==0 && mat[i][j+1]!=1){
-            if(mat[i][j+1]==2)
-                solve(i, j+1, total+1);
-            else
-                solve(i, j+1, total);
-            res[i][j+1] = mat[i][j+1];
+    for(int i=0; i<4; i++){
+        int nx = x + addx[i];
+        int ny = y + addy[i];
+        if(valid(nx, ny)){
+            if(visited[nx][ny]==0 && mat[nx][ny]==0){
+                visited[nx][ny] = 1;
+                solve(nx, ny, total);
+                visited[nx][ny] = 0;
+            }
+            if(visited[nx][ny]==0 && mat[nx][ny]==2){
+                visited[nx][ny] = 1;
+                solve(nx, ny, total+1);
+                visited[nx][ny] = 0;
+            }
         }
     }
-    if((j-1)>=0){ //up
-        if(visited[i][j-1]==0 && mat[i][j-1]!=1){
-            if(mat[i][j-1]==2)
-                solve(i, j-1, total+1);
-            else
-                solve(i, j-1, total);
-            res[i][j-1] = mat[i][j-1];
-        }
-    }
-    if((i+1)<=n-1){ //right
-        if(visited[i+1][j]==0 && mat[i+1][j]!=1){
-            if(mat[i+1][j]==2)
-                solve(i+1, j, total+1);
-            else
-                solve(i+1, j, total);
-            res[i+1][j] = mat[i+1][j];
-        }
-    }
-    if((i-1)>=0){ //left
-        if(visited[i-1][j]==0 && mat[i-1][j]!=1){
-            if(mat[i-1][j]==2)
-                solve(i-1, j, total+1);
-            else
-                solve(i-1, j, total);
-            res[i-1][j] = mat[i-1][j];
-        }
-    }
-    visited[i][j] = 0;
-    return -1;
 }
 int main(){
     int t;
@@ -85,10 +52,15 @@ int main(){
             for(int j=0; j<n; j++)
                 cin>>mat[i][j];
         init();
-        cout<<solve(0, 0, 0)<<endl;
+        visited[0][0] = 1;
+        if(mat[0][0]==2)
+            solve(0, 0, 1);
+        else
+            solve(0, 0, 0);
+        cout<<ans<<endl;
         for(int i=0; i<n; i++){
             for(int j=0; j<n; j++)
-                cout<<mat[i][j];
+                cout<<res[i][j];
             cout<<endl;
         }
     }
