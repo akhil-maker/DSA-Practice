@@ -5,10 +5,9 @@ void solve(int i, int *a, bool *visited, int mn, int mx, int sum, int nodes, int
     if(visited[i]){
         int newmn = min(sum, mn);
         int newmx = min(sum, mx);
-        if(nodes==com-1){
+        if(nodes==com-1)
             ans = min(ans, newmx-newmn);
-            return;
-        }
+        return;
     }
     visited[i] = 1;
     int j = (i+1)%mines;
