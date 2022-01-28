@@ -52,7 +52,6 @@ void bfs(int x, int y){
                push(in);
            }
        }
-       cout<<ans[a][b]<<endl;
    }
 }
 int main(){
