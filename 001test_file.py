@@ -68,30 +68,31 @@
 # print(rsquared(y, yp))
 # print(adjRsquared(rsquared(y, yp), len(y), 2))
 
-ans = []
-def printAll(set, k):
-    n = len(set)
-    printAllRec(set, "", n, k)
+# ans = []
+# def printAll(set, k):
+#     n = len(set)
+#     printAllRec(set, "", n, k)
 
-def printAllRec(set, prefix, n, k):
-    if(k==0):
-        ans.append(prefix)
-        return
-    for i in range(n):
-        if(len(prefix)>0 and prefix[-1]=='b' and set[i]=='b'):
-            continue
-        newPre = prefix+set[i%2]
-        printAllRec(set, newPre, n, k-1)
+# def printAllRec(set, prefix, n, k):
+#     if(k==0):
+#         ans.append(prefix)
+#         return
+#     for i in range(n):
+#         if(len(prefix)>0 and prefix[-1]=='b' and set[i]=='b'):
+#             continue
+#         newPre = prefix+set[i%2]
+#         printAllRec(set, newPre, n, k-1)
 
-set = ['a', 'b']
-t = int(input())
-for i in range(t):
-    ans = []
-    n = int(input())
-    m = int(input())
-    printAll(set, n)
-    print(ans)
-    if(len(ans)-1>=m-1):
-        print(ans[m-1])
-    else:
-        print("Not possible")
+# set = ['a', 'b']
+# t = int(input())
+# for i in range(t):
+#     ans = []
+#     n = int(input())
+#     m = int(input())
+#     printAll(set, n)
+#     print(ans)
+#     if(len(ans)-1>=m-1):
+#         print(ans[m-1])
+#     else:
+#         print("Not possible")
+
