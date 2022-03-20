@@ -1,52 +1,74 @@
-#include<bits/stdc++.h>
+// { Driver Code Starts
+// Initial template for C++
+
+#include <bits/stdc++.h>
 using namespace std;
 
-int main()
-{
-/* Enter your code here. Read input from STDIN. Print output to STDOUT */
-unordered_map<int,vector<int>>map;
-unordered_map<int,int>visited;
-int N,M,x,y;
-cin>>N;
-for(int i=0;i<N;i++)
-{
-cin>>x;
-map[x]={};
+
+ // } Driver Code Ends
+//User function Template for C++
+
+class Solution{
+    public:
+    int cnt = 0;
+    void finded(vector<vector<char>>& mat, string target, int x, int y, int index, vector<vector<bool>> &visited){
+        int addx[] = {1, 1, 0, -1, -1, -1, 0, 1};
+        int addy[] = {0, 1, 1, 1, 0, -1, -1, -1};
+        if(mat[x][y]=='S')
+            cout<<x<<" "<<y<<endl;
+        cout<<mat[x][y]<<"="<<target[index]<<" ";
+        if(index==target.length()-1){
+            cnt++;
+            cout<<"cnt="<<cnt<<endl;
+            return;
+        }
+        visited[x][y] = true;
+        for(int i=0; i<8; i++){
+            int px = x+addx[i], py = y+addy[i];
+            if(px>=0 && py>=0 && px<mat.size() && py<mat[0].size() && mat[px][py]==target[index+1] && !visited[px][py])
+                finded(mat, target, px, py, index+1, visited);
+                // cout<<mat[px][py]<<"="<<target[index+1]<<" ";
+        }
+        cout<<endl;
+        visited[x][y] = false;
+        return;
+    }
+    int findOccurrence(vector<vector<char> > &mat, string target){
+        for(int i=0; i<mat.size(); i++){
+            for(int j=0; j<mat[0].size(); j++){
+                vector<vector<bool>> visited;
+                for(int p=0; p<mat.size(); p++){
+                    vector<bool> t(mat[0].size(), false);
+                    visited.push_back(t);
+                }
+                if(mat[i][j]==target[0])
+                    finded(mat, target, i, j, 0, visited);
+            }
+        }
+        return cnt;
+    }
+};
+
+// { Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int R, C;
+        cin >> R >> C;
+        vector<vector<char> > mat(R);
+        for (int i = 0; i < R; i++) {
+            mat[i].resize(C);
+            for (int j = 0; j < C; j++) cin >> mat[i][j];
+        }
+        string target;
+        cin >> target;
+        Solution obj;
+        cout<<obj.findOccurrence(mat,target)<<endl;
+    }
 }
-cin>>M;
-for(int i=0;i<M;i++)
-{
-cin>>x>>y;
-map[x].push_back(y);
-}
-cin>>x>>y;
-vectorres;
-queueq;
-visited[x]=1;
-q.push(x);
-while(!q.empty())
-{
-int z=q.front();
-q.pop();
-for(int i:map[z])
-{
-if(visited[i]==0)
-{
-if(i==y)
-res.push_back(z);
-else
-{
-visited[i]=1;
-q.push(i);
-}
-}
-}
-}
-sort(res.begin(),res.end());
-for(int i:res)
-cout<<i<<" ";
-return 0;
-}
+  // } Driver Code Ends
 // #include<bits/stdc++.h>
 // using namespace std;
 
