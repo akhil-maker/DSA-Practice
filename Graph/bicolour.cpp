@@ -3,36 +3,24 @@
 #include <bits/stdc++.h>
 using namespace std;
  
-// function to store the connected nodes
 void addEdge(vector<int> adj[], int u, int v)
 {
     adj[u].push_back(v);
     adj[v].push_back(u);
 }
 
-// function to check whether a graph is bipartite or not
-bool isBipartite(vector<int> adj[], int v,
+bool isfine(vector<int> adj[], int v,
                  vector<bool>& visited, vector<int>& color)
 {
  
     for (int u : adj[v]) {
- 
-        // if vertex u is not explored before
         if (visited[u] == false) {
- 
-            // mark present vertic as visited
             visited[u] = true;
- 
-            // mark its color opposite to its parent
             color[u] = !color[v];
  
-            // if the subtree rooted at vertex v is not bipartite
-            if (!isBipartite(adj, u, visited, color))
+            if (!isfine(adj, u, visited, color))
                 return false;
         }
- 
-        // if two adjacent are colored with same color then
-        // the graph is not bipartite
         else if (color[u] == color[v])
             return false;
     }
@@ -65,7 +53,7 @@ int main()
  
        color[1] = 0;
  
-       if (isBipartite(adj, 1, visited, color)) {
+       if (isfine(adj, 1, visited, color)) {
             int cnt = 0;
             for(int i=1; i<color.size(); i++)
                 if(color[i]==0)

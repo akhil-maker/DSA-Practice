@@ -3,11 +3,8 @@
 using namespace std;
 int dfs(vector<vector<int>>& m, int x, int y, vector<vector<bool>>& visited, int ans){
     int addx[] = {1, -1, 0, 0}, addy[] = {0, 0, -1, 1};
-    cout<<x<<" "<<y<<endl;
-    if(m[x][y]==2){
-        cout<<"ans = "<<ans<<endl;
+    if(m[x][y]==2)
         return ans;
-    }
     int res = INT_MAX;
     visited[x][y] = true;
     for(int i=0; i<4; i++){
@@ -17,12 +14,11 @@ int dfs(vector<vector<int>>& m, int x, int y, vector<vector<bool>>& visited, int
             res = min(cnt, res);
         }
     }
-    cout<<endl;
     visited[x][y] = false;
     return res;
 }
 int minMoves(vector<vector<int>>& m){
-    int cnt = 0, ans = INT_MAX;
+    int cnt = INT_MAX;
     for(int i=0; i<m.size(); i++){
         for(int j=0; j<m[0].size(); j++){
             if(m[i][j]==1){
@@ -36,7 +32,7 @@ int minMoves(vector<vector<int>>& m){
             }
         }
     }
-    return cnt;
+    return (cnt==INT_MAX)?-1:cnt;
 }
 int main(){
     vector<vector<int>> m = {
