@@ -3,70 +3,25 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-
-
- // } Driver Code Ends
-//User function Template for C++
-
-class Solution{
-    public:
+int solve(int n, int k, string s){
     int cnt = 0;
-    void finded(vector<vector<char>>& mat, string target, int x, int y, int index, vector<vector<bool>> &visited){
-        int addx[] = {1, 1, 0, -1, -1, -1, 0, 1};
-        int addy[] = {0, 1, 1, 1, 0, -1, -1, -1};
-        if(mat[x][y]=='S')
-            cout<<x<<" "<<y<<endl;
-        cout<<mat[x][y]<<"="<<target[index]<<" ";
-        if(index==target.length()-1){
-            cnt++;
-            cout<<"cnt="<<cnt<<endl;
-            return;
+    for(int i=0; i<n; i++){
+        int p = 0;
+        for(int j=i; j<n; j++){
+            p = p*10 + (s[j]-'0');
+            if(p%k==0)
+                cnt++;
         }
-        visited[x][y] = true;
-        for(int i=0; i<8; i++){
-            int px = x+addx[i], py = y+addy[i];
-            if(px>=0 && py>=0 && px<mat.size() && py<mat[0].size() && mat[px][py]==target[index+1] && !visited[px][py])
-                finded(mat, target, px, py, index+1, visited);
-                // cout<<mat[px][py]<<"="<<target[index+1]<<" ";
-        }
-        cout<<endl;
-        visited[x][y] = false;
-        return;
     }
-    int findOccurrence(vector<vector<char> > &mat, string target){
-        for(int i=0; i<mat.size(); i++){
-            for(int j=0; j<mat[0].size(); j++){
-                vector<vector<bool>> visited;
-                for(int p=0; p<mat.size(); p++){
-                    vector<bool> t(mat[0].size(), false);
-                    visited.push_back(t);
-                }
-                if(mat[i][j]==target[0])
-                    finded(mat, target, i, j, 0, visited);
-            }
-        }
-        return cnt;
-    }
-};
-
-// { Driver Code Starts.
+    return cnt;
+}
 
 int main() {
-    int t;
-    cin >> t;
-    while (t--) {
-        int R, C;
-        cin >> R >> C;
-        vector<vector<char> > mat(R);
-        for (int i = 0; i < R; i++) {
-            mat[i].resize(C);
-            for (int j = 0; j < C; j++) cin >> mat[i][j];
-        }
-        string target;
-        cin >> target;
-        Solution obj;
-        cout<<obj.findOccurrence(mat,target)<<endl;
-    }
+    int n, k;
+    cin>>n>>k;
+    string s;
+    cin>>s;
+    cout<<solve(n, k, s);
 }
   // } Driver Code Ends
 // #include<bits/stdc++.h>
