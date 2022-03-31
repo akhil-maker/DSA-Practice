@@ -1,4 +1,6 @@
 #include<iostream>
+#include<vector>
+#include<stack>
 using namespace std;
 vector<int> adj[100];
 void addEdge(int a, int b){
@@ -9,7 +11,7 @@ void topoSortUtil(int v, vector<bool>& visited, stack<int>& s){
     visited[v] = true;
     for(int i : adj[v])
         if(!visited[i])
-            topoSort(i, visited, s);
+            topoSortUtil(i, visited, s);
     s.push(v);
 }
 void toposort(int c){
@@ -17,7 +19,7 @@ void toposort(int c){
     vector<bool> visited(c, false);
     for(int i=0; i<c; i++)
         if(!visited[i])
-            topoSortUtil(i, visited, stack);
+            topoSortUtil(i, visited, s);
     while(!s.empty()){
         cout<<(char)('a'+s.top())<<" ";
         s.pop();
@@ -33,7 +35,7 @@ void alienOrder(vector<string> words, int c, int n){
             }
         }
     }
-    topoSort(c);
+    toposort(c);
 }
 int main(){
     vector<string> words = {"baa", "abcd", "abca", "cab", "cad"};
