@@ -3,26 +3,59 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-int solve(int n, int k, string s){
-    int cnt = 0;
-    for(int i=0; i<n; i++){
-        int p = 0;
-        for(int j=i; j<n; j++){
-            p = p*10 + (s[j]-'0');
-            if(p%k==0)
-                cnt++;
-        }
-    }
-    return cnt;
+char flip(char ch){
+    return (ch == 'L') ? 'L' : 'R';
 }
 
-int main() {
-    int n, k;
-    cin>>n>>k;
-    string s;
-    cin>>s;
-    cout<<solve(n, k, s);
+int getFlip(string str, char expected){
+    int flipCount = 0;
+    for (int i = 0; i < str.length(); i++){
+        if (str[i] != expected)
+            flipCount++;
+        expected = flip(expected);
+    }
+    return flipCount;
 }
+ 
+int minFlip(string str){
+    return min(getFlip(str, 'L'), getFlip(str, 'R'));
+}
+int maxScore(vector<int>& nums, int rounds) {
+        int n = nums.size() >> 1;
+        int total = (n << 1);
+        int32_t dp[rounds + 1][1 << total];
+        memset(dp, 0, sizeof dp);
+        int32_t gcd[total][total];
+        for (int i = 0; i < total; ++i) {
+            for (int j = i + 1; j < total; ++j) {
+                gcd[i][j] = __gcd(nums[i], nums[j]);
+            }
+        }
+        for (int round = 1; round <= rounds; ++round) {
+            for (int mask = 0; mask < (1 << total); ++mask) {
+                if (__builtin_popcount(mask) == (round << 1)) {
+                    for (int i = 0; i < total; ++i) {
+                        if (mask & (1 << i)) {
+                            for (int j = i + 1; j < total; ++j) {
+                                if (mask & (1 << j)) {
+                                    dp[round][mask] = max(dp[round][mask], dp[round - 1][mask ^ (1 << i) ^ (1 << j)] + gcd[i][j] * round);
+                                }
+                            }   
+                        }
+                    }
+                }
+            }
+        }
+        return dp[rounds][(1 << total) - 1];
+}
+
+int main(){
+    string str = "LLLRRR";
+   cout << minFlip(str);
+   vector<int> a= {3, 4, 9, 5};
+   cout<<maxScore(a, 2);
+}
+
   // } Driver Code Ends
 // #include<bits/stdc++.h>
 // using namespace std;
